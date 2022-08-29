@@ -3,7 +3,10 @@ const puppeteer = require("puppeteer");
 async function holidayCalendar() {
   const url = "https://es.investing.com/holiday-calendar/";
 
-  let browser = await puppeteer.launch();
+  let browser = await puppeteer.launch({
+    headless: false,
+    args: ["--no-sandbox"],
+  });
   let page = await browser.newPage();
 
   await page.goto(url, { waitUntil: "networkidle2" });
