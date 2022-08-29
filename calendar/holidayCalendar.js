@@ -71,7 +71,7 @@ async function holidayCalendar() {
         date: children[0].innerText,
         country: children[1].innerText,
         event: children[2].innerText,
-        impact: children[3].innerText,
+        description: children[3].innerText,
       };
     });
 
