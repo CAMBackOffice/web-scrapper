@@ -1,49 +1,3 @@
-// const puppeteer = require("puppeteer");
-
-// async function holidayCalendar() {
-//   const url = "https://es.investing.com/holiday-calendar/";
-
-//   let browser = await puppeteer.launch({
-//     headless: true,
-//     args: ["--no-sandbox", "--disable-setuid-sandbox"],
-//   });
-//   let page = await browser.newPage();
-
-//   await page.goto(url, { waitUntil: "networkidle2" });
-
-//   let data = await page.evaluate(() => {
-//     // get the table rows with id='holidayCalendarData'.
-
-//     let tds = Array.from(
-//       document.querySelectorAll("table[id='holidayCalendarData'] tr td")
-//     );
-
-//     let rows = tds.map((td) => td.innerText);
-
-//     // get the dates positions, regex that match dd.mm.yyyy
-//     dates = rows.filter((row) => /\d{2}\.\d{2}\.\d{4}/.test(row));
-
-//     // Ex. The position 0 is today, 1 is tomorrow.
-//     // we want only the data for position 0.
-//     // return rows until dates[1] is found.
-//     rows = rows.slice(1, rows.indexOf(dates[1]));
-
-//     // make rows a string and split by \n.
-//     rows = rows.join(" ").split("\n");
-
-//     return { date: dates[0], rows };
-//   });
-
-//   browser.close();
-//   return data;
-// }
-
-// // (async () => {
-// //   console.log(await holidayCalendar());
-// // })();
-
-// module.exports = holidayCalendar;
-
 const puppeteer = require("puppeteer");
 
 async function holidayCalendar() {
@@ -59,12 +13,13 @@ async function holidayCalendar() {
 
   let data = await page.evaluate(() => {
     // get the table rows with id='holidayCalendarData'.
-
     let tds = Array.from(
       document.querySelectorAll("table[id='holidayCalendarData'] tr")
     );
 
-    // every tds has 4 children, the children 0 is the date, the children 1 is the country, the children 2 is the event and the children 3 is the impact.
+    // every tds has 4 childrens, the children 0 is the date,
+    // the children 1 is the country, the children 2 is the event
+    // and the children 3 is the description.
     let rows = tds.map((td) => {
       let children = Array.from(td.children);
       return {
@@ -81,16 +36,18 @@ async function holidayCalendar() {
       return row;
     });
 
+    // detele the first two objects of rows. bc they are the table headers.
+    rows = rows.slice(2);
+
+    //   // return the rows until rows.date match regex pattern dd.mm.yyyy
+    //   return rows.filter((row) => {
+    //     return row.date.match(/\d{2}\.\d{2}\.\d{4}/);
+    //   });
     return rows;
   });
 
-  //Nombre de la bolsa de valores
   browser.close();
   return data;
 }
-
-// (async () => {
-//   console.log(await holidayCalendar());
-// })();
 
 module.exports = holidayCalendar;
