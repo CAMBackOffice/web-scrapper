@@ -4,8 +4,8 @@ async function holidayCalendar() {
   const url = "https://es.investing.com/holiday-calendar/";
 
   let browser = await puppeteer.launch({
-    headless: false,
-    args: ["--no-sandbox"],
+    headless: true,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
   let page = await browser.newPage();
 
