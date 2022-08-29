@@ -31,7 +31,7 @@ async function holidayCalendar() {
   });
 
   browser.close();
-  return data;
+  return { data };
 }
 
 // (async () => {
