@@ -1,5 +1,5 @@
-const holidayCalendar = require("../calendar/holidayCalendar");
-const { logger } = require("../utils/logger");
+const holidayCalendar = require('../calendar/holidayCalendar');
+const { logger } = require('../utils/logger');
 
 exports.getHolidays = async (req, res) => {
   try {

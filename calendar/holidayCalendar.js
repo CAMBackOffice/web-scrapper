@@ -1,15 +1,24 @@
-const puppeteer = require("puppeteer");
+const puppeteer = require('puppeteer');
+const { logger } = require('../utils/logger');
 
 async function holidayCalendar() {
-  const url = "https://es.investing.com/holiday-calendar/";
+  const url = 'https://es.investing.com/holiday-calendar/';
 
   let browser = await puppeteer.launch({
     headless: true,
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
   let page = await browser.newPage();
 
-  await page.goto(url, { waitUntil: "networkidle2" });
+  await page.goto(url, { waitUntil: 'networkidle2' });
+
+  // const todayButton = await page.evaluateHandle(() =>
+  //   document.querySelector('#timeFrame_today')
+  // );
+  // await todayButton.click();
+
+  // page.waitForNavigation();
+  // page.click('#timeFrame_today');
 
   let data = await page.evaluate(() => {
     // get the table rows with id='holidayCalendarData'.
@@ -22,27 +31,38 @@ async function holidayCalendar() {
     // and the children 3 is the description.
     let rows = tds.map((td) => {
       let children = Array.from(td.children);
+
       return {
         date: children[0].innerText,
         country: children[1].innerText,
-        event: children[2].innerText,
+        name: children[2].innerText,
         description: children[3].innerText,
       };
     });
 
     // delete \n and empty spaces from rows.country
     rows = rows.map((row) => {
-      row.country = row.country.replace(/\n/g, "").trim();
+      row.country = row.country.replace(/\n/g, '').trim();
+
       return row;
     });
 
     // detele the first two objects of rows. bc they are the table headers.
     rows = rows.slice(2);
 
-    //   // return the rows until rows.date match regex pattern dd.mm.yyyy
-    //   return rows.filter((row) => {
-    //     return row.date.match(/\d{2}\.\d{2}\.\d{4}/);
-    //   });
+    // if the date field is empty add the date of the previous row with a value.
+    let date = '';
+    rows = rows.map((row) => {
+      if (row.date != '') {
+        date = row.date;
+      }
+
+      // si esta vacio
+      row.date = date;
+
+      return row;
+    });
+
     return rows;
   });
 
