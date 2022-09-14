@@ -1,5 +1,4 @@
 const puppeteer = require('puppeteer');
-const { logger } = require('../utils/logger');
 
 async function holidayCalendar() {
   const url = 'https://es.investing.com/holiday-calendar/';
@@ -35,7 +34,7 @@ async function holidayCalendar() {
       return {
         date: children[0].innerText,
         country: children[1].innerText,
-        name: children[2].innerText,
+        event: children[2].innerText,
         description: children[3].innerText,
       };
     });
