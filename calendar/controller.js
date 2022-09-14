@@ -4,7 +4,7 @@ const { logger } = require('../utils/logger');
 exports.getHolidays = async (req, res) => {
   try {
     const data = await holidayCalendar();
-    logger.info(data);
+    //logger.info(data);
 
     res.status(200).json(data);
   } catch (error) {
