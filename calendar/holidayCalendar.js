@@ -6,6 +6,7 @@ async function holidayCalendar() {
   let browser = await puppeteer.launch({
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    ignoreDefaultArgs: ['--disable-extensions']
   });
   let page = await browser.newPage();
 
