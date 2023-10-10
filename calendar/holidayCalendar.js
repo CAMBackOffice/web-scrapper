@@ -9,15 +9,7 @@ async function holidayCalendar() {
   });
   let page = await browser.newPage();
 
-  await page.goto(url, { waitUntil: 'networkidle2' });
-
-  // const todayButton = await page.evaluateHandle(() =>
-  //   document.querySelector('#timeFrame_today')
-  // );
-  // await todayButton.click();
-
-  // page.waitForNavigation();
-  // page.click('#timeFrame_today');
+  await page.goto(url, { waitUntil: "networkidle2", timeout: 80000 });
 
   let data = await page.evaluate(() => {
     // get the table rows with id='holidayCalendarData'.
