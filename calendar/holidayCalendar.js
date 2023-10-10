@@ -9,7 +9,7 @@ async function holidayCalendar() {
   });
   let page = await browser.newPage();
 
-  await page.goto(url, { waitUntil: "networkidle2", timeout: 80000 });
+  await page.goto(url, { waitUntil: "load", timeout: 80000 });
 
   let data = await page.evaluate(() => {
     // get the table rows with id='holidayCalendarData'.
